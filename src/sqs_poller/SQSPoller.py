@@ -7,9 +7,6 @@ import os
 import boto3
 
 
-# TODO: use kebab-case in the root directory name
-# https://nordhealth.design/naming/#repositories
-
 class SQSPoller:
     """A wrapper class around boto3's SQS resource.
 
@@ -104,9 +101,7 @@ class SQSPoller:
         """
         queue = self.get_queue_by_name(queue_name)
         receive_kwargs['MaxNumberOfMessages'] = max_count
-        return queue.receive_messages(
-            **receive_kwargs
-        )
+        return queue.receive_messages(**receive_kwargs)
 
     def get_message_from_queue(self, queue_name, **receive_kwargs):
         """Return a single message from a queue named `queue_name`.
