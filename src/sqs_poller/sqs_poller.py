@@ -10,6 +10,10 @@ class SQSPoller:
     https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sqs.html"""
     # TODO: how long does an AWS session last? Should it be refreshed?
     def __init__(self, **session_kwargs):
+        """All arguments are passed to the underlying boto3 Session. The list
+         of available parameters can be found here:
+         https://boto3.amazonaws.com/v1/documentation/api/latest/reference/core/session.html
+        """
         session_kwargs.setdefault(
             'aws_access_key_id',
             os.environ.get('SQS_POLLER_AWS_ACCESS_KEY_ID'),
