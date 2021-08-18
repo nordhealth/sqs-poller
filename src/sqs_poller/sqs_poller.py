@@ -84,7 +84,7 @@ class SQSPoller:
         queue = self.get_queue_by_name(queue_name)
         return queue.purge()
 
-    def get_messages_from_queue(self, queue_name, max_count=1, **receive_kwargs):
+    def receive_messages_from_queue(self, queue_name, max_count=1, **receive_kwargs):
         """Return maximum of `max_count` messages from a queue named `queue_name`.
 
         :param str queue_name: Name of the queue.
@@ -99,7 +99,7 @@ class SQSPoller:
         receive_kwargs['MaxNumberOfMessages'] = max_count
         return queue.receive_messages(**receive_kwargs)
 
-    def get_message_from_queue(self, queue_name, **receive_kwargs):
+    def receive_message_from_queue(self, queue_name, **receive_kwargs):
         """Return a single message from a queue named `queue_name`.
 
         `receive_kwargs` are passed to the underlying receive_messages call.
@@ -111,7 +111,7 @@ class SQSPoller:
         :return: `Message` object or None, when no message was received.
         :rtype: Message, None
         """
-        messages = self.get_messages_from_queue(queue_name, **receive_kwargs)
+        messages = self.receive_messages_from_queue(queue_name, **receive_kwargs)
         try:
             return messages[0]
         except IndexError:
