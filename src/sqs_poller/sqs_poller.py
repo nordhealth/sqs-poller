@@ -12,11 +12,11 @@ class SQSPoller:
     def __init__(self, **session_kwargs):
         session_kwargs.setdefault(
             'aws_access_key_id',
-            os.environ.get('POLLER_AWS_ACCESS_KEY_ID'),
+            os.environ.get('SQS_POLLER_AWS_ACCESS_KEY_ID'),
         )
         session_kwargs.setdefault(
             'aws_secret_access_key',
-            os.environ.get('POLLER_AWS_SECRET_ACCESS_KEY'),
+            os.environ.get('SQS_POLLER_AWS_SECRET_ACCESS_KEY'),
         )
         self.session = boto3.Session(**session_kwargs)
         self.sqs = self.session.resource('sqs')
