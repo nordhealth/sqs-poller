@@ -117,35 +117,6 @@ class SQSPoller:
         except IndexError:
             return None
 
-    def delete_messages_from_queue(self, queue_name, entries):
-        """Delete maximum of 10 messages from a queue named `queue_name`.
-
-        Messages from SQS are deleted using receipt handles. `entries`
-        is a list of all messages that should be deleted. Every item
-        in `entries` should be a dictionary with 2 keys: 'Id' and
-        'ReceiptHandle'.
-
-        [
-            {
-                'Id': '<a unique ID (string)>',
-
-                'ReceiptHandle': '<a receipt handle (string)>',
-            },
-        ]
-
-        If multiple messages are deleted simultaneously, every message's
-        `Id` should be unique. The `Id` will be used to identify the
-        messages on the response.
-
-        :param str queue_name: Name of the queue.
-        :param entries: List of entries as described above.
-        :raise QueueDoesNotExist: When the queue is not found, this exception is raised.
-        :return: The API response.
-        :rtype: dict
-        """
-        queue = self.get_queue_by_name(queue_name)
-        return queue.delete_messages(Entries=entries)
-
     def send_message_to_queue(self, queue_name, message_body, **send_kwargs):
         """Send a message `message_body` to a queue named `queue_name`.
 
