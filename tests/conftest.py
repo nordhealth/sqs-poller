@@ -16,20 +16,25 @@ def aws_credentials():
     os.environ['AWS_SESSION_TOKEN'] = 'testing'
     os.environ['SQS_POLLER_AWS_ACCESS_KEY_ID'] = 'testing'
     os.environ['SQS_POLLER_AWS_SECRET_ACCESS_KEY'] = 'testing'
+    return {
+        'aws_access_key_id': 'testing',
+        'aws_secret_access_key': 'testing',
+        'region_name': 'eu-west-1',
+    }
 
 
 @pytest.fixture
 def sqs(aws_credentials):
     """Return an SQS resource from boto3"""
     with mock_sqs():
-        yield boto3.resource('sqs')
+        yield boto3.Session(**aws_credentials).resource('sqs')
 
 
 @pytest.fixture
 def poller(aws_credentials):
     """Return an SQSPoller instance"""
     with mock_sqs():
-        yield SQSPoller()
+        yield SQSPoller(**aws_credentials)
 
 
 @pytest.fixture
