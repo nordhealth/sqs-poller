@@ -4,7 +4,7 @@ import boto3
 from moto import mock_sqs
 import pytest
 
-from src.sqs_poller import SQSPoller
+from sqs_poller import SQSPoller
 
 
 @pytest.fixture(autouse=True)
