@@ -58,21 +58,26 @@ class TestReceiveMessagesFromQueue:
         queue, queue_name = queue_without_messages
         messages = poller.receive_messages_from_queue(queue_name)
         assert not messages
+        message = poller.receive_message_from_queue(queue_name)
+        assert message is None
 
     def test_one_message(self, poller, queue_without_messages):
         queue, queue_name = queue_without_messages
         response = poller.send_message_to_queue(queue_name, 'message')
         message_id = response.get('MessageId')
-        message = poller.receive_message_from_queue(queue_name)
+
+        message = poller.receive_message_from_queue(queue_name, VisibilityTimeout=0)
         assert message.message_id == message_id
-        new_messages = poller.receive_messages_from_queue(queue_name)
-        assert not new_messages
+        messages = poller.receive_messages_from_queue(queue_name)
+        assert messages[0].message_id == message_id
 
     def test_multiple_messages(self, poller, queue_with_messages):
         queue, queue_name, message_ids = queue_with_messages
         messages = poller.receive_messages_from_queue(queue_name, max_count=10)
         for message in messages:
             assert message.message_id in message_ids
+        message = poller.receive_message_from_queue(queue_name)
+        assert message.message_id in message_ids
 
 
 class TestPurgeQueue:
