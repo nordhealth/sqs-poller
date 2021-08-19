@@ -88,7 +88,3 @@ class TestPurgeQueue:
         messages = poller.receive_messages_from_queue(queue_name)
         assert not messages
 
-    def test_test(self):
-        from src.sqs_poller import SQSPoller
-        poller = SQSPoller()
-        poller.create_queue('test')
