@@ -1,20 +1,13 @@
 import os
 
 import boto3
-from moto import mock_sqs
 import pytest
+from moto import mock_sqs
 
 from sqs_poller import SQSPoller
 
 
-@pytest.fixture(autouse=True)
-def permanent_mock_sqs():
-    """Make sure that we don't make requests to real AWS by accident"""
-    with mock_sqs():
-        yield
-
-
-@pytest.fixture(autouse=True)
+@pytest.fixture
 def aws_credentials():
     """Set AWS credentials for testing"""
     os.environ['AWS_ACCESS_KEY_ID'] = 'testing'
@@ -25,16 +18,18 @@ def aws_credentials():
     os.environ['SQS_POLLER_AWS_SECRET_ACCESS_KEY'] = 'testing'
 
 
-@pytest.fixture()
+@pytest.fixture
 def sqs(aws_credentials):
     """Return an SQS resource from boto3"""
-    yield boto3.resource('sqs')
+    with mock_sqs():
+        yield boto3.resource('sqs')
 
 
-@pytest.fixture()
+@pytest.fixture
 def poller(aws_credentials):
     """Return an SQSPoller instance"""
-    yield SQSPoller()
+    with mock_sqs():
+        yield SQSPoller()
 
 
 @pytest.fixture
