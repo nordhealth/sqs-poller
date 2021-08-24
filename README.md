@@ -7,21 +7,46 @@ https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sqs.h
 
 # Usage
 ## Creating a poller object
-
+### Give the AWS credentials as arguments
+**Note that the credentials should not be stored directly in the source code.**
+Please use some other method for storing them, for example environmental
+variables, as described in the next section.
 ```python
 from sqs_poller import SQSPoller
 
 poller = SQSPoller(
     aws_access_key_id='<YOUR-AWS-ACCESS-KEY-ID>',
     aws_secret_access_key='<YOUR-AWS-SECRET-ACCESS-KEY>',
+    region_name='<AWS-REGION-NAME>',
 )
+```
 
-# Alternatively
+Or if you want to store the credentials in a dict:
+```python
 aws_credentials = {
     'aws_access_key_id': '<YOUR-AWS-ACCESS-KEY-ID>',
     'aws_secret_access_key': '<YOUR-AWS-SECRET-ACCESS-KEY>',
+    'region_name': '<AWS-REGION-NAME>',
 }
 poller = SQSPoller(**aws_credentials)
+```
+Note that the arguments given to SQSPoller are passed to the underlying boto3
+Session. The list of available parameters can be found here:
+https://boto3.amazonaws.com/v1/documentation/api/latest/reference/core/session.html
+
+### Get the AWS credentials from environmental variables
+The credentials can also be stored in environmental variables. The following
+variables can be used:
+- `SQS_POLLER_AWS_ACCESS_KEY_ID`
+- `SQS_POLLER_AWS_SECRET_ACCESS_KEY`
+- `SQS_POLLER_REGION_NAME`
+
+If all the necessary credentials are given in environmental variables, it's not
+necessary to give any arguments to `SQSPoller`:
+```python
+from sqs_poller import SQSPoller
+
+poller = SQSPoller()
 ```
 
 ## Getting a queue

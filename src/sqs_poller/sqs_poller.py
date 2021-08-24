@@ -22,6 +22,11 @@ class SQSPoller:
             'aws_secret_access_key',
             os.environ.get('SQS_POLLER_AWS_SECRET_ACCESS_KEY'),
         )
+        session_kwargs.setdefault(
+            'region_name',
+            os.environ.get('SQS_POLLER_REGION_NAME'),
+        )
+
         self.session = boto3.Session(**session_kwargs)
         self.sqs = self.session.resource('sqs')
         self.queue_cache = {}
