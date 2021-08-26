@@ -8,7 +8,7 @@ class SQSPoller:
 
     Please see the official documentation for more detailed information:
     https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sqs.html"""
-    # TODO: how long does an AWS session last? Should it be refreshed?
+
     def __init__(self, **session_kwargs):
         """All arguments are passed to the underlying boto3 Session. The list
          of available parameters can be found here:
@@ -140,4 +140,3 @@ class SQSPoller:
         queue = self.get_queue_by_name(queue_name)
         send_kwargs['MessageBody'] = message_body
         return queue.send_message(**send_kwargs)
-
