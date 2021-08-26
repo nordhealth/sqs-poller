@@ -5,6 +5,11 @@ Please see the official documentation for more detailed information:
 
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sqs.html
 
+# Installation
+```shell
+pip install sqs-poller
+```
+
 # Usage
 ## Creating a poller object
 ### Give the AWS credentials as arguments
@@ -144,3 +149,50 @@ poller.purge_queue('queue-name')
 messages = poller.receive_messages_from_queue('queue-name')
 print(len(messages))  # Prints "0"
 ```
+
+# Development
+## Set up a virtual environment
+Note that while this example uses virtualenvwrapper, other virtualenv tools
+should also work.
+
+### Install virtualenvwrapper
+https://virtualenvwrapper.readthedocs.io/en/latest/install.html#basic-installation
+
+Remember to run `. .bashrc`, or to restart your terminal before moving to the
+next step. Otherwise, `mkvirtualenv` command might not be available.
+
+### Create a virtual environment
+```shell
+mkvirtualenv sqs-poller
+```
+
+## Clone the repository
+```shell
+git clone https://github.com/nordhealth/sqs-poller.git
+cd sqs-poller
+```
+
+## Install dependencies
+```shell
+python -m pip install --upgrade pip
+pip install -e .[tests]
+```
+
+## Run the tests
+```shell
+pytest
+```
+
+## Publish a new release to PyPI
+**Make sure that the tests are passing before creating a release.**
+See [this commit](https://github.com/nordhealth/sqs-poller/commit/0f63d94f5c1b46b75329e0763ac96b279f0419b6)
+for more information.
+
+```shell
+git checkout main
+git tag <VERSION-NUMBER>
+git push origin <VERSION-NUMBER>
+```
+ This will create a new git tag for the release, and start the GitHub workflow
+ which will create a new release to PyPI with the given version number.
+ 
