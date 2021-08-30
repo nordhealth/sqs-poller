@@ -35,7 +35,7 @@ aws_credentials = {
 }
 poller = SQSPoller(**aws_credentials)
 ```
-Note that the arguments given to SQSPoller are passed to the underlying boto3
+Note that the arguments given to `SQSPoller` are passed to the underlying boto3
 Session. The list of available parameters can be found here:
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/core/session.html
 
