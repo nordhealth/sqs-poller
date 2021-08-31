@@ -93,11 +93,11 @@ class SQSPoller:
         queue = self.get_queue_by_name(queue_name)
         return queue.purge()
 
-    def receive_messages_from_queue(self, queue_name, max_count=1, **receive_kwargs):
+    def receive_messages_from_queue(self, queue_name, max_count=10, **receive_kwargs):
         """Return maximum of `max_count` messages from a queue named `queue_name`.
 
         :param str queue_name: Name of the queue.
-        :param int max_count: Maximum number of messages to receive.
+        :param int max_count: Maximum number of messages to receive (10 at most).
         :param receive_kwargs: Arguments that will be passed to the underlying
          `receive_messages` call.
         :raise QueueDoesNotExist: When the queue is not found, this exception is raised.
